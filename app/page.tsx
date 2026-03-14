@@ -38,7 +38,10 @@ export default function Home() {
       )}
 
       {question && question.type === "multiple_choice" && (
-        <MultipleChoiceQuestion question={question} />
+        <MultipleChoiceQuestion
+          question={question}
+          nextQuestion={nextQuestion}
+        />
       )}
 
       {question && question.type === "arrange_words" && (
@@ -108,7 +111,9 @@ const TeReoTitle = () => {
 
 const MultipleChoiceQuestion = ({
   question,
+  nextQuestion,
 }: {
+  nextQuestion: () => void;
   question: {
     _id: Id<"questions">;
     _creationTime: number;
@@ -146,6 +151,7 @@ const MultipleChoiceQuestion = ({
       <AnsweredQuestionDrawer
         correctAnswer={question.options[question.correctIndex]}
         questionIsCorrect={questionIsCorrect}
+        nextQuestion={nextQuestion}
       />
     </div>
   );
@@ -154,9 +160,11 @@ const MultipleChoiceQuestion = ({
 export function AnsweredQuestionDrawer({
   correctAnswer,
   questionIsCorrect,
+  nextQuestion,
 }: {
   correctAnswer: string;
   questionIsCorrect: boolean;
+  nextQuestion: () => void;
 }) {
   return (
     <Drawer key={"bottom"}>
@@ -172,7 +180,9 @@ export function AnsweredQuestionDrawer({
           )}
         </DrawerHeader>
         <DrawerFooter>
-          <Button className="h-12 text-md">Next Question</Button>
+          <Button className="h-12 text-md" onClick={nextQuestion}>
+            Next Question
+          </Button>
         </DrawerFooter>
       </DrawerContent>
     </Drawer>
