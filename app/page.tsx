@@ -5,6 +5,17 @@ import { api } from "../convex/_generated/api";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Id } from "@/convex/_generated/dataModel";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import { CheckIcon, CircleXIcon, CrossIcon } from "lucide-react";
 
 export default function Home() {
   const [seed, setSeed] = useState(0);
@@ -109,19 +120,91 @@ const MultipleChoiceQuestion = ({
     correctIndex: number;
   };
 }) => {
+  const [selectedOption, setSelectedOption] = useState<number | null>(null);
+
+  const questionIsCorrect = selectedOption === question.correctIndex;
+
   return (
     <div className="h-full grid grid-rows-[auto_auto_1fr_auto]">
       <p className="text-lg font-bold">Select the correct translation</p>
-      <p className="h-60 flex items-center justify-center">{question.prompt}</p>
+      <p className="h-60 flex items-center justify-center font-medium text-lg">
+        {question.prompt}
+      </p>
       <div className="flex flex-col gap-4">
         {question.options.map((opt, i) => (
-          <Button key={i} variant={"outline"} className="h-12">
+          <Button
+            key={i}
+            variant={"outline"}
+            className={`h-12 text-md ${selectedOption === i ? "bg-secondary text-secondary-foreground" : ""}`}
+            onClick={() => setSelectedOption(i)}
+          >
             {opt}
           </Button>
         ))}
       </div>
 
-      <Button className="h-12">Check</Button>
+      <AnsweredQuestionDrawer
+        correctAnswer={question.options[question.correctIndex]}
+        questionIsCorrect={questionIsCorrect}
+      />
     </div>
+  );
+};
+
+export function AnsweredQuestionDrawer({
+  correctAnswer,
+  questionIsCorrect,
+}: {
+  correctAnswer: string;
+  questionIsCorrect: boolean;
+}) {
+  return (
+    <Drawer key={"bottom"}>
+      <DrawerTrigger asChild>
+        <Button className="h-12 text-md">Check</Button>
+      </DrawerTrigger>
+      <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
+        <DrawerHeader>
+          {questionIsCorrect ? (
+            <CorrectHeaderContent />
+          ) : (
+            <IncorrectHeaderContent correctAnswer={correctAnswer} />
+          )}
+        </DrawerHeader>
+        <DrawerFooter>
+          <Button className="h-12 text-md">Next Question</Button>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
+  );
+}
+
+const IncorrectHeaderContent = ({
+  correctAnswer,
+}: {
+  correctAnswer: string;
+}) => {
+  return (
+    <>
+      <DrawerTitle className="flex gap-2 text-destructive">
+        <CircleXIcon></CircleXIcon>
+        {"Incorrect"}
+      </DrawerTitle>
+      <DrawerDescription className="flex pt-2 text-destructive font-medium">
+        Correct answer
+      </DrawerDescription>
+      <p className="text-destructive">{correctAnswer}</p>
+    </>
+  );
+};
+
+const CorrectHeaderContent = () => {
+  return (
+    <>
+      <DrawerTitle className="flex gap-2 text-green-500">
+        <CheckIcon></CheckIcon>
+        {"Correct"}
+      </DrawerTitle>
+    </>
   );
 };
