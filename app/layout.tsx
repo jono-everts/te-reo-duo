@@ -1,19 +1,19 @@
+// For adding custom fonts with other frameworks, see:
+// https://tailwindcss.com/docs/font-family
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
+import { Outfit, Space_Mono } from "next/font/google";
 import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
-import { cn } from "@/lib/utils";
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'});
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const fontSans = Outfit({
   subsets: ["latin"],
+  variable: "--font-sans",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fontMono = Space_Mono({
   subsets: ["latin"],
+  variable: "--font-mono",
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -27,10 +27,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={cn("font-sans", inter.variable)}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+    <html lang="en">
+      <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
         <ConvexClientProvider>{children}</ConvexClientProvider>
       </body>
     </html>
