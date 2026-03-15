@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { Id } from "@/convex/_generated/dataModel";
 import {
   Drawer,
-  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerFooter,
@@ -15,7 +14,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { CheckIcon, CircleXIcon, CrossIcon } from "lucide-react";
+import { CheckIcon, CircleXIcon } from "lucide-react";
 
 export default function Home() {
   const [seed, setSeed] = useState(0);
@@ -26,7 +25,7 @@ export default function Home() {
   }
 
   return (
-    <main className="w-full max-w-xl p-2 h-screen">
+    <main className="w-full max-w-xl p-2 h-dvh">
       {/* <TeReoTitle /> */}
 
       {question === undefined && <p className="text-zinc-500">Loading…</p>}
