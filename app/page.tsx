@@ -14,7 +14,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { CheckIcon, CircleXIcon } from "lucide-react";
+import { CircleCheckIcon, CircleXIcon } from "lucide-react";
 
 export default function Home() {
   const [seed, setSeed] = useState(0);
@@ -178,7 +178,7 @@ export function AnsweredQuestionDrawer({
             <IncorrectHeaderContent correctAnswer={correctAnswer} />
           )}
         </DrawerHeader>
-        <DrawerFooter>
+        <DrawerFooter className="text-md">
           <Button className="h-12 text-md" onClick={nextQuestion}>
             Next Question
           </Button>
@@ -195,14 +195,16 @@ const IncorrectHeaderContent = ({
 }) => {
   return (
     <>
-      <DrawerTitle className="flex gap-2 text-destructive">
-        <CircleXIcon></CircleXIcon>
+      <DrawerTitle className="flex gap-2 text-destructive text-lg items-center font-bold">
+        <CircleXIcon className="mt-1" />
         {"Incorrect"}
       </DrawerTitle>
-      <DrawerDescription className="flex pt-2 text-destructive font-medium">
-        Correct answer
+      <DrawerDescription className="flex flex-col items-start gap-2">
+        <p className="pt-2 text-destructive font-medium text-lg">
+          Correct answer:
+        </p>
+        <p className="text-destructive text-lg">{correctAnswer}</p>
       </DrawerDescription>
-      <p className="text-destructive">{correctAnswer}</p>
     </>
   );
 };
@@ -210,9 +212,9 @@ const IncorrectHeaderContent = ({
 const CorrectHeaderContent = () => {
   return (
     <>
-      <DrawerTitle className="flex gap-2 text-green-500">
-        <CheckIcon></CheckIcon>
-        {"Correct"}
+      <DrawerTitle className="flex gap-2 text-green-500 text-lg items-center font-bold">
+        <CircleCheckIcon className=""></CircleCheckIcon>
+        {"Correct!"}
       </DrawerTitle>
     </>
   );
