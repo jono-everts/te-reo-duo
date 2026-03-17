@@ -2,7 +2,7 @@
 
 import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Id } from "@/convex/_generated/dataModel";
 import {
@@ -17,11 +17,23 @@ import {
 import { CircleCheckIcon, CircleXIcon } from "lucide-react";
 
 export default function Home() {
-  const [seed, setSeed] = useState(0);
-  const question = useQuery(api.questions.getRandomQuestion, { seed });
+  const [seed, setSeed] = useState(() => Math.floor(Math.random() * 10000));
+  const [previousIndex, setPreviousIndex] = useState<number | undefined>(
+    undefined,
+  );
+  const question = useQuery(api.questions.getRandomQuestion, {
+    seed,
+    previousIndex,
+  });
+
+  const currentIndexRef = useRef<number | undefined>(undefined);
+  if (question?._index !== undefined) {
+    currentIndexRef.current = question._index;
+  }
 
   function nextQuestion() {
-    setSeed((s) => s + 1);
+    setPreviousIndex(currentIndexRef.current);
+    setSeed(Math.floor(Math.random() * 10000));
   }
 
   return (
