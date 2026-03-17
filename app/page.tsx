@@ -130,8 +130,8 @@ const MultipleChoiceQuestion = ({
 
   return (
     <div className="h-full grid grid-rows-[auto_auto_1fr_auto]">
-      <p className="text-lg font-bold">Select the correct translation</p>
-      <p className="h-60 flex items-center justify-center font-medium text-lg">
+      <p className="text-xl font-bold">Select the correct translation</p>
+      <p className="h-60 flex items-center justify-center font-medium text-xl">
         {question.prompt}
       </p>
       <div className="flex flex-col gap-4">
@@ -139,7 +139,7 @@ const MultipleChoiceQuestion = ({
           <Button
             key={i}
             variant={"outline"}
-            className={`h-12 text-md ${selectedOption === i ? "bg-secondary text-secondary-foreground" : ""}`}
+            className={`h-12 text-lg ${selectedOption === i ? "bg-secondary text-secondary-foreground" : ""}`}
             onClick={() => setSelectedOption(i)}
           >
             {opt}
@@ -168,7 +168,7 @@ export function AnsweredQuestionDrawer({
   return (
     <Drawer key={"bottom"}>
       <DrawerTrigger asChild>
-        <Button className="h-12 text-md">Check</Button>
+        <Button className="h-12 text-lg">Check</Button>
       </DrawerTrigger>
       <DrawerContent className="data-[vaul-drawer-direction=bottom]:max-h-[50vh] data-[vaul-drawer-direction=top]:max-h-[50vh]">
         <DrawerHeader>
@@ -178,8 +178,8 @@ export function AnsweredQuestionDrawer({
             <IncorrectHeaderContent correctAnswer={correctAnswer} />
           )}
         </DrawerHeader>
-        <DrawerFooter className="text-md">
-          <Button className="h-12 text-md" onClick={nextQuestion}>
+        <DrawerFooter>
+          <Button className="h-12 text-lg" onClick={nextQuestion}>
             Next Question
           </Button>
         </DrawerFooter>
