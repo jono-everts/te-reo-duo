@@ -138,8 +138,8 @@ const MultipleChoiceQuestion = ({
         {question.options.map((opt, i) => (
           <Button
             key={i}
-            variant={"outline"}
-            className={`h-12 text-lg ${selectedOption === i ? "bg-secondary text-secondary-foreground" : ""}`}
+            variant={selectedOption === i ? "secondary" : "outline"}
+            className={`h-12 text-lg`}
             onClick={() => setSelectedOption(i)}
           >
             {opt}
