@@ -56,24 +56,7 @@ export default function Home() {
         )}
 
         {question && question.type === "arrange_words" && (
-          <div className="space-y-4">
-            <p className="text-sm text-zinc-500 uppercase tracking-wide">
-              Arrange the words
-            </p>
-            <div className="flex flex-wrap gap-2">
-              {question.words.map((word, i) => (
-                <span
-                  key={i}
-                  className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-800 dark:text-zinc-200 cursor-pointer border border-zinc-200 dark:border-zinc-700"
-                >
-                  {word}
-                </span>
-              ))}
-            </div>
-            <p className="text-xs text-zinc-400">
-              Answer: {question.correctSentence}
-            </p>
-          </div>
+          <ArrangeTheWords question={question} nextQuestion={nextQuestion} />
         )}
 
         {question && question.type === "match_pairs" && (
@@ -236,5 +219,92 @@ const CorrectHeaderContent = () => {
         {"Correct!"}
       </DrawerTitle>
     </>
+  );
+};
+
+const ArrangeTheWords = ({
+  question,
+  nextQuestion,
+}: {
+  nextQuestion: () => void;
+  question: {
+    _id: Id<"questions">;
+    _creationTime: number;
+    type: "arrange_words";
+    difficulty: number;
+    topic: string;
+    correctSentence: string;
+    words: string[];
+    correctOrder: number[];
+    prompt: string;
+  };
+}) => {
+  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+
+  const bankIndices = question.words
+    .map((_, i) => i)
+    .filter((i) => !selectedIndices.includes(i));
+
+  const userSentence = selectedIndices.map((i) => question.words[i]).join(" ");
+  const questionIsCorrect = userSentence === question.correctSentence;
+
+  function selectWord(idx: number) {
+    setSelectedIndices((prev) => [...prev, idx]);
+  }
+
+  function deselectWord(position: number) {
+    setSelectedIndices((prev) => prev.filter((_, i) => i !== position));
+  }
+
+  return (
+    <div className="h-full grid grid-rows-[auto_auto_1fr_auto]">
+      <header className="flex h-12 items-center gap-2">
+        <SidebarTrigger className="h-6 w-6" />
+        <p className="text-xl font-bold">Arrange the words</p>
+      </header>
+
+      <p className="h-60 flex items-center justify-center font-medium text-xl">
+        {question.prompt}
+      </p>
+
+      <div className="flex flex-col">
+        <div className="flex-1 flex flex-wrap content-start gap-2 p-3 min-h-[80px] border-b border-dashed">
+          {selectedIndices.length === 0 && (
+            <span className="text-muted-foreground text-sm self-center">
+              Tap words below to build your answer
+            </span>
+          )}
+          {selectedIndices.map((wordIdx, position) => (
+            <Button
+              key={position}
+              variant="outline"
+              className="rounded-full px-3 h-8 text-sm"
+              onClick={() => deselectWord(position)}
+            >
+              {question.words[wordIdx]}
+            </Button>
+          ))}
+        </div>
+
+        <div className="flex-1 flex flex-wrap content-start gap-2 p-3 min-h-[80px]">
+          {bankIndices.map((wordIdx) => (
+            <Button
+              key={wordIdx}
+              variant="outline"
+              className="rounded-full px-3 h-8 text-sm"
+              onClick={() => selectWord(wordIdx)}
+            >
+              {question.words[wordIdx]}
+            </Button>
+          ))}
+        </div>
+      </div>
+
+      <AnsweredQuestionDrawer
+        correctAnswer={question.correctSentence}
+        questionIsCorrect={questionIsCorrect}
+        nextQuestion={nextQuestion}
+      />
+    </div>
   );
 };

@@ -148,6 +148,7 @@ function ArrangeWordsForm({ onSuccess }: { onSuccess: () => void }) {
     defaultValues: {
       topic: "",
       difficulty: 1,
+      prompt: "",
       correctSentence: "",
       words: [""],
     },
@@ -162,6 +163,7 @@ function ArrangeWordsForm({ onSuccess }: { onSuccess: () => void }) {
         type: "arrange_words",
         topic: value.topic,
         difficulty: value.difficulty,
+        prompt: value.prompt,
         correctSentence: value.correctSentence,
         words: value.words,
         correctOrder,
@@ -179,6 +181,23 @@ function ArrangeWordsForm({ onSuccess }: { onSuccess: () => void }) {
       className="flex flex-col gap-5 max-w-lg"
     >
       <CommonFields form={form} />
+
+      <div className="flex flex-col gap-1">
+        <FieldLabel>Prompt</FieldLabel>
+        <form.Field name="prompt">
+          {(field) => (
+            <>
+              <Input
+                value={field.state.value}
+                onBlur={field.handleBlur}
+                onChange={(e) => field.handleChange(e.target.value)}
+                placeholder="e.g. Arrange these words into a sentence"
+              />
+              <FieldError message={field.state.meta.errors[0]} />
+            </>
+          )}
+        </form.Field>
+      </div>
 
       <div className="flex flex-col gap-1">
         <FieldLabel>Correct Sentence</FieldLabel>

@@ -16,6 +16,7 @@ export default defineSchema({
         type: v.literal("arrange_words"),
         difficulty: v.number(),
         topic: v.string(),
+        prompt: v.string(),
         correctSentence: v.string(),
         words: v.array(v.string()),
         correctOrder: v.array(v.number()),
@@ -25,7 +26,7 @@ export default defineSchema({
         difficulty: v.number(),
         topic: v.string(),
         pairs: v.array(v.object({ teReo: v.string(), english: v.string() })),
-      })
-    )
+      }),
+    ),
   ),
 });
