@@ -70,7 +70,7 @@ function MultipleChoiceForm({ onSuccess }: { onSuccess: () => void }) {
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="e.g. What does 'kia ora' mean?"
               />
-              <FieldError message={field.state.meta.errors[0]?.message} />
+              <FieldError message={field.state.meta.errors[0]} />
             </>
           )}
         </form.Field>
@@ -155,8 +155,7 @@ function ArrangeWordsForm({ onSuccess }: { onSuccess: () => void }) {
       const sentenceWords = value.correctSentence.trim().split(/\s+/);
       const correctOrder = sentenceWords.map((w) => {
         const idx = value.words.indexOf(w);
-        if (idx === -1)
-          throw new Error(`Word "${w}" not found in words list`);
+        if (idx === -1) throw new Error(`Word "${w}" not found in words list`);
         return idx;
       });
       await addArrangeWords({
@@ -192,7 +191,7 @@ function ArrangeWordsForm({ onSuccess }: { onSuccess: () => void }) {
                 onChange={(e) => field.handleChange(e.target.value)}
                 placeholder="e.g. Ko tōku reo Māori"
               />
-              <FieldError message={field.state.meta.errors[0]?.message} />
+              <FieldError message={field.state.meta.errors[0]} />
             </>
           )}
         </form.Field>
@@ -340,7 +339,6 @@ function MatchPairsForm({ onSuccess }: { onSuccess: () => void }) {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function CommonFields({ form }: { form: any }) {
   return (
     <div className="flex gap-4">
@@ -380,11 +378,10 @@ function CommonFields({ form }: { form: any }) {
   );
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function SubmitButton({ form }: { form: any }) {
   return (
-    <form.Subscribe selector={(s) => s.isSubmitting}>
-      {(isSubmitting) => (
+    <form.Subscribe selector={(s: { isSubmitting: boolean }) => s.isSubmitting}>
+      {(isSubmitting: boolean) => (
         <Button type="submit" disabled={isSubmitting} className="self-start">
           {isSubmitting ? "Saving…" : "Add Question"}
         </Button>
