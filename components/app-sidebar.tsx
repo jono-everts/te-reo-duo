@@ -22,12 +22,7 @@ export function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <Link href="/add-question">Add a question</Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/">Questions</Link>
+                  <Link href="/">Random Questions</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
