@@ -1,9 +1,15 @@
+"use client";
+
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -11,6 +17,10 @@ import {
 } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
+  const searchParams = useSearchParams();
+  const selectedTopic = searchParams.get("topic");
+  const topics = useQuery(api.questions.getTopics);
+
   return (
     <Sidebar>
       <SidebarHeader>
@@ -21,13 +31,36 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/">Random Questions</Link>
+                <SidebarMenuButton asChild isActive={selectedTopic === null} variant="outline">
+                  <Link href="/">All Questions</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+
+        {topics && topics.length > 0 && (
+          <SidebarGroup>
+            <SidebarGroupLabel>Topics</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {topics.map((topic) => (
+                  <SidebarMenuItem key={topic}>
+                    <SidebarMenuButton
+                      asChild
+                      isActive={selectedTopic === topic}
+                      variant="outline"
+                    >
+                      <Link href={`/?topic=${encodeURIComponent(topic)}`}>
+                        {topic}
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
     </Sidebar>
   );

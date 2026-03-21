@@ -42,10 +42,26 @@ export const addMatchPairs = mutation({
   },
 });
 
-export const getRandomQuestion = query({
-  args: { seed: v.number(), previousIndex: v.optional(v.number()) },
-  handler: async (ctx, args) => {
+export const getTopics = query({
+  args: {},
+  handler: async (ctx) => {
     const questions = await ctx.db.query("questions").collect();
+    const topics = [...new Set(questions.map((q) => q.topic))].sort();
+    return topics;
+  },
+});
+
+export const getRandomQuestion = query({
+  args: {
+    seed: v.number(),
+    previousIndex: v.optional(v.number()),
+    topic: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    const all = await ctx.db.query("questions").collect();
+    const questions = args.topic
+      ? all.filter((q) => q.topic === args.topic)
+      : all;
     if (questions.length === 0) return null;
     let index = Math.abs(args.seed) % questions.length;
     if (index === args.previousIndex && questions.length > 1) {

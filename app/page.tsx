@@ -3,6 +3,7 @@
 import { useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { useState, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Id } from "@/convex/_generated/dataModel";
 import {
@@ -18,13 +19,25 @@ import { CircleCheckIcon, CircleXIcon } from "lucide-react";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Home() {
+  const searchParams = useSearchParams();
+  const topic = searchParams.get("topic") ?? undefined;
+
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 10000));
   const [previousIndex, setPreviousIndex] = useState<number | undefined>(
     undefined,
   );
+
+  const prevTopicRef = useRef(topic);
+  if (prevTopicRef.current !== topic) {
+    prevTopicRef.current = topic;
+    setSeed(Math.floor(Math.random() * 10000));
+    setPreviousIndex(undefined);
+  }
+
   const question = useQuery(api.questions.getRandomQuestion, {
     seed,
     previousIndex,
+    topic,
   });
 
   const currentIndexRef = useRef<number | undefined>(undefined);
