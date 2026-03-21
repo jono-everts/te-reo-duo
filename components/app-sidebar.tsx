@@ -1,9 +1,9 @@
+import Link from "next/link";
 import {
   Sidebar,
   SidebarContent,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
@@ -22,12 +22,12 @@ export function AppSidebar() {
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/">Add a question</a>
+                  <Link href="/add-question">Add a question</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild>
-                  <a href="/">Questions</a>
+                  <Link href="/">Questions</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
             </SidebarMenu>
