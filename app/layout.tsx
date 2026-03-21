@@ -2,6 +2,7 @@
 // https://tailwindcss.com/docs/font-family
 import type { Metadata } from "next";
 import { Outfit, Space_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -33,7 +34,7 @@ export default function RootLayout({
       <body className={`${fontSans.variable} ${fontMono.variable} antialiased`}>
         <ConvexClientProvider>
           <SidebarProvider>
-            <AppSidebar />
+            <Suspense><AppSidebar /></Suspense>
             {children}
           </SidebarProvider>
         </ConvexClientProvider>
