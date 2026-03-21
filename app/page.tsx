@@ -260,7 +260,7 @@ const ArrangeTheWords = ({
     <div className="h-full grid grid-rows-[auto_auto_1fr_auto]">
       <header className="flex h-12 items-center gap-2">
         <SidebarTrigger className="h-6 w-6" />
-        <p className="text-xl font-bold">Arrange the words</p>
+        <p className="text-xl font-bold">Translate this sentence</p>
       </header>
 
       <p className="h-60 flex items-center justify-center font-medium text-xl">
