@@ -40,7 +40,7 @@ export default function Home() {
     <main className="w-full max-w-xl p-2 h-dvh">
       {/* <TeReoTitle /> */}
 
-      {question === undefined && <p className="text-zinc-500">Loading…</p>}
+      {question === undefined && <QuestionSkeleton />}
 
       {question === null && (
         <p className="text-zinc-500">
@@ -115,6 +115,12 @@ export default function Home() {
     </main>
   );
 }
+
+const QuestionSkeleton = () => (
+  <div className="h-full flex items-center justify-center">
+    <div className="w-10 h-10 border-4 border-muted border-t-foreground rounded-full animate-spin" />
+  </div>
+);
 
 const TeReoTitle = () => {
   return <h1 className="font-bold text-xl">Te Reo Duo</h1>;
