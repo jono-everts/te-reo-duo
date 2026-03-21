@@ -31,7 +31,11 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={selectedTopic === null} variant="outline">
+                <SidebarMenuButton
+                  asChild
+                  isActive={selectedTopic === null}
+                  variant="outline"
+                >
                   <Link href="/">All Questions</Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
