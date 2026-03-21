@@ -15,6 +15,7 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { CircleCheckIcon, CircleXIcon } from "lucide-react";
+import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Home() {
   const [seed, setSeed] = useState(() => Math.floor(Math.random() * 10000));
@@ -37,82 +38,82 @@ export default function Home() {
   }
 
   return (
-    <main className="w-full max-w-xl p-2 h-dvh">
-      {/* <TeReoTitle /> */}
-
-      {question === undefined && <QuestionSkeleton />}
-
-      {question === null && (
-        <p className="text-zinc-500">
-          No questions yet. Add some via the Convex dashboard.
-        </p>
-      )}
-
-      {question && question.type === "multiple_choice" && (
-        <MultipleChoiceQuestion
-          question={question}
-          nextQuestion={nextQuestion}
-        />
-      )}
-
-      {question && question.type === "arrange_words" && (
-        <div className="space-y-4">
-          <p className="text-sm text-zinc-500 uppercase tracking-wide">
-            Arrange the words
+    <SidebarInset>
+      <main className="w-full max-w-xl p-2 h-dvh">
+        {question === null && (
+          <p className="text-zinc-500">
+            No questions yet. Add some via the Convex dashboard.
           </p>
-          <div className="flex flex-wrap gap-2">
-            {question.words.map((word, i) => (
-              <span
-                key={i}
-                className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-800 dark:text-zinc-200 cursor-pointer border border-zinc-200 dark:border-zinc-700"
-              >
-                {word}
-              </span>
-            ))}
-          </div>
-          <p className="text-xs text-zinc-400">
-            Answer: {question.correctSentence}
-          </p>
-        </div>
-      )}
+        )}
 
-      {question && question.type === "match_pairs" && (
-        <div className="space-y-4">
-          <p className="text-sm text-zinc-500 uppercase tracking-wide">
-            Match the pairs
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              {question.pairs.map((p, i) => (
-                <div
+        {question === undefined && <QuestionSkeleton />}
+
+        {question && question.type === "multiple_choice" && (
+          <MultipleChoiceQuestion
+            question={question}
+            nextQuestion={nextQuestion}
+          />
+        )}
+
+        {question && question.type === "arrange_words" && (
+          <div className="space-y-4">
+            <p className="text-sm text-zinc-500 uppercase tracking-wide">
+              Arrange the words
+            </p>
+            <div className="flex flex-wrap gap-2">
+              {question.words.map((word, i) => (
+                <span
                   key={i}
-                  className="px-4 py-2 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 text-green-900 dark:text-green-200"
+                  className="px-3 py-1 bg-zinc-100 dark:bg-zinc-800 rounded-full text-zinc-800 dark:text-zinc-200 cursor-pointer border border-zinc-200 dark:border-zinc-700"
                 >
-                  {p.teReo}
-                </div>
+                  {word}
+                </span>
               ))}
             </div>
-            <div className="space-y-2">
-              {question.pairs.map((p, i) => (
-                <Button
-                  key={i}
-                  className="px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-200"
-                >
-                  {p.english}
-                </Button>
-              ))}
+            <p className="text-xs text-zinc-400">
+              Answer: {question.correctSentence}
+            </p>
+          </div>
+        )}
+
+        {question && question.type === "match_pairs" && (
+          <div className="space-y-4">
+            <p className="text-sm text-zinc-500 uppercase tracking-wide">
+              Match the pairs
+            </p>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-2">
+                {question.pairs.map((p, i) => (
+                  <div
+                    key={i}
+                    className="px-4 py-2 rounded-lg bg-green-50 dark:bg-green-900/30 border border-green-200 dark:border-green-700 text-green-900 dark:text-green-200"
+                  >
+                    {p.teReo}
+                  </div>
+                ))}
+              </div>
+              <div className="space-y-2">
+                {question.pairs.map((p, i) => (
+                  <Button
+                    key={i}
+                    className="px-4 py-2 rounded-lg bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-700 text-blue-900 dark:text-blue-200"
+                  >
+                    {p.english}
+                  </Button>
+                ))}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* <button
-        onClick={nextQuestion}
-        className="w-full py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold transition-colors"
-      >
-        Next Question
-      </button> */}
-    </main>
+        {/* <button
+          onClick={nextQuestion}
+          className="w-full py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-semibold transition-colors"
+        >
+          Next Question
+        </button> */}
+      </main>
+    </SidebarInset>
   );
 }
 
@@ -121,10 +122,6 @@ const QuestionSkeleton = () => (
     <div className="w-10 h-10 border-4 border-muted border-t-foreground rounded-full animate-spin" />
   </div>
 );
-
-const TeReoTitle = () => {
-  return <h1 className="font-bold text-xl">Te Reo Duo</h1>;
-};
 
 const MultipleChoiceQuestion = ({
   question,
@@ -148,7 +145,11 @@ const MultipleChoiceQuestion = ({
 
   return (
     <div className="h-full grid grid-rows-[auto_auto_1fr_auto]">
-      <p className="text-xl font-bold">Select the correct translation</p>
+      <header className="flex h-12 items-center gap-2">
+        <SidebarTrigger className="h-6 w-6" />
+        <p className="text-xl font-bold">Select the correct translation</p>
+      </header>
+
       <p className="h-60 flex items-center justify-center font-medium text-xl">
         {question.prompt}
       </p>
