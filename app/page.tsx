@@ -202,10 +202,10 @@ const IncorrectHeaderContent = ({
         {"Incorrect"}
       </DrawerTitle>
       <DrawerDescription className="flex flex-col items-start gap-2">
-        <p className="pt-2 text-destructive font-medium text-lg">
+        <span className="pt-2 text-destructive font-medium text-lg">
           Correct answer:
-        </p>
-        <p className="text-destructive text-lg">{correctAnswer}</p>
+        </span>
+        <span className="text-destructive text-lg">{correctAnswer}</span>
       </DrawerDescription>
     </>
   );
