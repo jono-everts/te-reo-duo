@@ -14,12 +14,14 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/components/ui/sidebar";
 
 export function AppSidebar() {
   const searchParams = useSearchParams();
   const selectedTopic = searchParams.get("topic");
   const topics = useQuery(api.questions.getTopics);
+  const { setOpenMobile } = useSidebar();
 
   return (
     <Sidebar>
@@ -35,6 +37,7 @@ export function AppSidebar() {
                   asChild
                   isActive={selectedTopic === null}
                   variant="outline"
+                  onClick={() => setOpenMobile(false)}
                 >
                   <Link href="/">All Questions</Link>
                 </SidebarMenuButton>
@@ -54,6 +57,7 @@ export function AppSidebar() {
                       asChild
                       isActive={selectedTopic === topic}
                       variant="outline"
+                      onClick={() => setOpenMobile(false)}
                     >
                       <Link href={`/?topic=${encodeURIComponent(topic)}`}>
                         {topic}
